@@ -35,6 +35,9 @@ function createButton (content, color) {
   btn.textContent = `${content}`;
   btn.style.backgroundColor = `${color}`;
   btn.addEventListener("click", handleClick);
+  btn.addEventListener("mousedown", mouseDown);
+  btn.addEventListener("mouseup", (event) => mouseUp(event, color));
+  btn.addEventListener("mouseout", (event) => mouseUp(event, color));
   container.appendChild(btn);
 }
 
@@ -55,16 +58,29 @@ function createButtons () {
 createButtons();
 
 // Display functions
-const display = document.querySelector('.display');
 
 function populateDisplay (displayThis) {
-  const content = document.createElement('div');
-  content.textContent = `${displayThis}`;
-  display.appendChild(content);
+  const display = document.querySelector('.display');
+  if (display.textContent.length < 9) {
+    display.textContent += `${displayThis}`; // prevent overflow in the display div
+  }
+}
+
+function clearDisplay() {
+  const display = document.querySelector('.display');
+  display.textContent += '';
 }
 
 // Click handing / operations
 
 function handleClick(event) {
   populateDisplay(event.target.textContent);
+}
+
+function mouseDown(event) {
+  event.target.style.backgroundColor = "darkgrey";
+}
+
+function mouseUp(event, color) {
+  event.target.style.backgroundColor = `${color}`;
 }
