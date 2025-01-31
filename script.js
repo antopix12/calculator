@@ -34,15 +34,15 @@ function createButton (content, color) {
   btn.classList.add("btn");
   btn.textContent = `${content}`;
   btn.style.backgroundColor = `${color}`;
+  btn.addEventListener("click", handleClick);
   container.appendChild(btn);
 }
-
 
 function createButtons () {
   let otherButtons = ['+', '-', '*', '/', 'C', '='];
 
   for (let i = 0; i < otherButtons.length - 2; i++) {
-    createButton(otherButtons[i], 'red');
+    createButton(otherButtons[i], 'cyan');
   }
   for (let i = 9; i >= 0; i--) {
     createButton(i, 'white');
@@ -50,7 +50,21 @@ function createButtons () {
   for (let i = 4; i < otherButtons.length; i++) {
     createButton(otherButtons[i], 'red');
   }
-  
 }
 
 createButtons();
+
+// Display functions
+const display = document.querySelector('.display');
+
+function populateDisplay (displayThis) {
+  const content = document.createElement('div');
+  content.textContent = `${displayThis}`;
+  display.appendChild(content);
+}
+
+// Click handing / operations
+
+function handleClick(event) {
+  populateDisplay(event.target.textContent);
+}

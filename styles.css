@@ -19,8 +19,17 @@ body {
   border-radius: 25px;
 }
 
-#display {
+.display {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  font-size: 80px;
+  gap: 0;
+  padding-right: 10px;
+  font-family: sans-serif;
   background-color: lightgray;
+  color: black;
   border-radius: 10px;
   width: 450px;
   height: 120px;
@@ -32,7 +41,6 @@ body {
   flex-wrap: wrap;
   width: 450px;
   height: 450px;
-  
 }
 
 .btn {
