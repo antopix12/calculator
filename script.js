@@ -1,28 +1,56 @@
 // Math functions
 
 function add (x, y) {
-  return x + y;
+  return Number((x + y).toFixed(9));
 }
 
-function subtract (x, y) {
-  return y - x;
+function subtract (y, x) {
+  return Number((y - x).toFixed(9));
 }
 
 function multiply (x, y) {
-  return x * y;
+  return Number((x * y).toFixed(9));
 }
 
 function divide (y, x) {
-  return y / x;
+  if (x == 0) {
+    clearDisplay();
+    clearVariables();
+    return 'Error';
+  }
+  return Number((y / x).toFixed(8));
 }
 
 // Operation variables
-let num1 = 0;
-let num2 = 0;
+let num1 = '';
+let num2 = '';
 let operator = '';
+let typingSecondNum = false;
+let operatorPressed = false;
 
-function operate (opr, x, y) {
-  return opr(x, y);
+function operate(opr, x, y) {
+  const operations = {
+    '+': add,
+    '-': subtract,
+    '*': multiply,
+    '/': divide
+  };
+
+  if (operations[opr]) {
+    return operations[opr](Number(x), Number(y)); // Call the correct function
+  } else {
+    clearVariables();
+    clearDisplay();
+    return '';
+  }
+}
+
+
+function clearVariables () {
+  num1 = '';
+  num2 = '';
+  operator = '';
+  typingSecondNum = false;
 }
 
 // Create buttons
@@ -68,13 +96,51 @@ function populateDisplay (displayThis) {
 
 function clearDisplay() {
   const display = document.querySelector('.display');
-  display.textContent += '';
+  display.textContent = '';
 }
 
 // Click handing / operations
 
 function handleClick(event) {
-  populateDisplay(event.target.textContent);
+  let input = event.target.textContent;
+  
+  // only numbers get displayed
+  if (!isNaN(input)) {
+    populateDisplay(event.target.textContent);
+
+    if (!typingSecondNum) {
+      num1 += input;
+    } else {
+      clearDisplay();
+      num2 += input;
+      populateDisplay(num2);
+    }
+    operatorPressed = false;
+  } else if (input === 'C') {
+    clearDisplay();
+    clearVariables();
+    operatorPressed = false;
+  } else if (input === '=') {
+
+    // handle operation if valid
+    clearDisplay();
+    populateDisplay(operate(operator, num1, num2));
+    clearVariables();
+    operatorPressed = false;
+
+  } else { // handle operators
+    if (operatorPressed) return; // prevent multiple operators
+
+    if (!typingSecondNum) typingSecondNum = true;
+    operator = input;
+    operatorPressed = true;
+  }
+}
+
+function getOperatorFunction (input) {
+  if (input === '+') {
+    return sum
+  }
 }
 
 function mouseDown(event) {
@@ -84,3 +150,4 @@ function mouseDown(event) {
 function mouseUp(event, color) {
   event.target.style.backgroundColor = `${color}`;
 }
+

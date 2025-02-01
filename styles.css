@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
   background-color: rgba(250, 235, 215, 0.5);
+  caret-color: transparent;
 }
 .calculator {
   display: flex;
@@ -54,4 +55,5 @@ body {
   border-radius: 5px;
   font-size: 48px;
   font-family: sans-serif;
+  cursor: default;
 }
